@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TO-DO-LIST</title>
+    <link rel="stylesheet" href="to-do.css">
+</head>
+<body>
+    <div class="container">
+        <h1>TASKAROO</h1>
+      <div class="hero-image">
+            <img src="https://i.pinimg.com/1200x/c7/04/52/c704520ea7f3f093e4f7b3c749d354c0.jpg" alt="Hero Image">
+             </div>
+        <div class="input-container">
+            <input type="text" id="textinput" placeholder="What needs to be Done?" autofocus>
+            <button id="addbtn">ADD TASK</button>
+        </div>
+        <ul id="todolist" class="todo-list">
+            <li class="empty-state">
+                <h3>No task added yet</h3>
+                <p>Start by adding your first task</p>
+            </li>
+        </ul>
+        <div class="stats" id="classstats">
+            <span>Total: <span id="totaltask">0</span></span>
+            <span>Completed: <span id="completedtask">0</span></span>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const taskInput = document.getElementById('textinput');
+            const addBtn = document.getElementById('addbtn');
+            const todoList = document.getElementById('todolist');
+            const totalTaskSpan = document.getElementById('totaltask');
+            const completedTaskSpan = document.getElementById('completedtask');
+            let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            
+            // Initialize the app
+            function init() {
+                renderTasks();
+                updateStats();
+                handleEmptyState();
+            }
+            
+            // Add new task
+            addBtn.addEventListener('click', addTask);
+            taskInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    addTask();
+                }
+            });
+            
+            function addTask() {
+                const taskText = taskInput.value.trim();
+                if (taskText === '') {
+                    alert('Please enter a task');
+                    return;
+                }
+                
+                const newTask = {
+                    id: Date.now(),
+                    text: taskText,
+                    completed: false
+                };
+                
+                tasks.unshift(newTask);
+                saveTasks();
+                renderTasks();
+                updateStats();
+                handleEmptyState();
+                
+                taskInput.value = '';
+                taskInput.focus();
+            }
+            
+            // Render all tasks
+            function renderTasks() {
+                todoList.innerHTML = '';
+                
+                if (tasks.length === 0) {
+                    showEmptyState();
+                    return;
+                }
+                
+                tasks.forEach(task => {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'todo-item';
+                    if (task.completed) {
+                        listItem.classList.add('completed');
+                    }
+                    
+                    listItem.innerHTML = `
+                        <div class="todo-text">${task.text}</div>
+                        <div class="todo-actions">
+                            <div class="action-btn complete-btn">✓</div>
+                            <div class="action-btn delete-btn">✕</div>
+                        </div>
+                    `;
+                    todoList.appendChild(listItem);
+                    
+                    // Add event listeners
+                    const completeBtn = listItem.querySelector('.complete-btn');
+                    const deleteBtn = listItem.querySelector('.delete-btn');
+                    
+                    completeBtn.addEventListener('click', () => toggleComplete(task.id));
+                    deleteBtn.addEventListener('click', () => deleteTask(task.id));
+                });
+            }
+            
+            // Toggle task completion
+            function toggleComplete(id) {
+                tasks = tasks.map(task => 
+                    task.id === id ? { ...task, completed: !task.completed } : task
+                );
+                saveTasks();
+                renderTasks();
+                updateStats();
+            }
+            
+            // Delete task
+            function deleteTask(id) {
+                tasks = tasks.filter(task => task.id !== id);
+                saveTasks();
+                renderTasks();
+                updateStats();
+                handleEmptyState();
+            }
+            
+            // Save tasks to localStorage
+            function saveTasks() {
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+            }
+            
+            // Update stats
+            function updateStats() {
+                const total = tasks.length;
+                const completed = tasks.filter(task => task.completed).length;
+                
+                totalTaskSpan.textContent = total;
+                completedTaskSpan.textContent = completed;
+            }
+            
+             // Handle empty state
+    function handleEmptyState() {
+        if (tasks.length === 0) {
+            showEmptyState();
+        } else {
+            hideEmptyState();
+        }
+    }
+    
+    function showEmptyState() {
+        if (!todoList.contains(emptyState)) {
+            todoList.appendChild(emptyState); // Append only if not already present
+        }
+    }
+    
+    function hideEmptyState() {
+        if (todoList.contains(emptyState)) {
+            emptyState.remove(); // Remove if it exists
+        }
+    }
+    
+    // Initialize the app
+    init();
+    });
+    </script>
+</body>
+</html>

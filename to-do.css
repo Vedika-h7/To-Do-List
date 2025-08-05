@@ -1,0 +1,214 @@
+:root {
+            --primary-color: #5e72e4;
+            --secondary-color: #f7fafc;
+            --accent-color: #ff6b6b;
+            --text-color: #2d3748;
+            --light-gray: #edf2f7;
+            --dark-gray: #718096;
+            --success-color: #48bb78;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #f04b4b;
+            font-weight: 600;
+            position: relative;
+        }
+        p{
+            text-align: center;
+            margin-bottom: 20px;
+            margin-top: 0px;
+            color: #ec2816;
+            font-weight: 500;
+            font-family: 'Times New Roman', Times, serif;
+            
+
+        }
+        
+         h1::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--primary-color);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+        .hero-image {
+            margin: 0 auto 30px;
+            text-align: center;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            height: 200px; /* Set a fixed height */
+        }
+        .hero-image img {
+            width: 100%; /* Make the image take the full width */
+            height: 100%; /* Make the image take the full height */
+            object-fit: cover; /* Cover the area without distortion */
+        }
+        .header-image {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            object-fit: cover;
+        }
+        .input-container {
+            display: flex;
+            margin-bottom: 30px;
+            gap: 10px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid var(--light-gray);
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background-color: #4a5fd1;
+            transform: translateY(-1px);
+        }
+        .todo-list {
+            list-style: none;
+        }
+        .todo-item {
+            background: white;
+            margin-bottom: 15px;
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+            border-left: 4px solid var(--primary-color);
+        }
+        .todo-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .todo-item.completed {
+            opacity: 0.7;
+            border-left-color: var(--success-color);
+        }
+        .todo-item.completed .todo-text {
+            text-decoration: line-through;
+            color: var(--dark-gray);
+        }
+        .todo-text {
+            flex: 1;
+            margin: 0 15px;
+            word-break: break-word;
+        }
+        .todo-actions {
+            display: flex;
+            gap: 10px;
+        }
+         .action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: white;
+            font-size: 16px;
+        }
+        .complete-btn {
+            background-color: var(--success-color);
+        }
+        .complete-btn:hover {
+            background-color: #38a169;
+        }
+        .delete-btn {
+            background-color: var(--accent-color);
+        }
+        .delete-btn:hover {
+            background-color: #ff5252;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--dark-gray);
+        }
+        .empty-state img {
+            width: 200px;
+            margin-bottom: 20px;
+        }
+        .stats {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            color: var(--dark-gray);
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .input-container {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+        /* Animation classes */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+         @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+        .slide-out {
+            animation: slideOut 0.3s ease-out forwards;
+        }
